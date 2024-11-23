@@ -3,10 +3,14 @@ alert("¡Bienvenido a ClimaConsciencia! \nTu punto de encuentro para aprender, r
 
 alert("¡Elige por donde quieres empezar!")
 
+let listaRespuestas = []
 let puntaje = 0
+let aciertos = 0
+let toneladasCarbono = 0
+let listaRecomendaciones = []
+let concejosFinales = []
 
 Menu()
-
 
 
 
@@ -16,12 +20,12 @@ function Menu() {
     let eleccion = 0
     do {
 
-        eleccion = parseInt(prompt("Elige una accion: \n 1.Introducción al Cambio Climático.\n 2.Calcular Huella de Carbono Personal.  \n  3.Consejos Prácticos para Reducir tu Impacto."))
+        eleccion = parseInt(prompt("Elige una accion: \n1.Introducción al Cambio Climático.\n2.Calcular Huella de Carbono Personal. \n3.Consejos Prácticos para Reducir tu Impacto. \n 4.Salir"))
 
         switch (eleccion) {
             case 1:
 
-                prompt("El calentamiento global es uno de los desafíos más graves que enfrenta el planeta en la actualidad. Este fenómeno se " +
+                alert("El calentamiento global es uno de los desafíos más graves que enfrenta el planeta en la actualidad. Este fenómeno se " +
                     "refiere al aumento de la temperatura promedio de la atmósfera y los océanos debido a la acumulación de gases de efecto " +
                     "invernadero, como el dióxido de carbono (CO₂), metano (CH₄) y óxidos de nitrógeno (NOx). Las principales fuentes de estas " +
                     "emisiones son las actividades humanas, como la quema de combustibles fósiles para la generación de energía, el transporte " +
@@ -46,11 +50,24 @@ function Menu() {
 
             case 2:
 
-                let listaRespuestas = CalcularHuella()
+                listaRespuestas = CalcularHuella()
 
                 break;
 
             case 3:
+
+            console.log(listaRespuestas);
+            
+
+            if (listaRespuestas.length === 0) {
+                alert("Aun no has realizado la encuesta para darte los mejores concejos")
+            }else{listaRecomendaciones = VerConcejos(listaRespuestas)}
+
+                break;
+
+            case 4:
+
+                Salida()
 
                 break;
 
@@ -61,13 +78,16 @@ function Menu() {
 
 
 
-    } while (eleccion != 1 || eleccion != 2 || eleccion != 3);
+
+    } while (eleccion !== 4 );
 
 }
 
 function CalcularHuella() {
 
-    if (confirm("A continuacion pasara a un cuestionario sobre algunas acciones que puede que pasen en tu vida con el fin de calcular si produces demasiada huella de carbono o no \n Presione confirmar para continuar y si no sera devuelto al menu anterior")) {
+    let mensaje = " "
+
+    if (confirm("A continuacion pasara a un cuestionario sobre algunas acciones que puede que pasen en tu vida con el fin de calcular si produces demasiada huella de carbono o no \nPresione confirmar para continuar y si no sera devuelto al menu anterior")) {
 
 
         let transporte = confirm("Utilizas transporte personal (como coche o motocicleta) más de 3 veces por semana?")
@@ -92,21 +112,29 @@ function CalcularHuella() {
 
         for (let index = 0; index < respuestas.length; index++) {
 
+            
+
             if (respuestas[index]) {
                 puntaje += 1
+                aciertos+= 1 
             }
         }
 
         if (puntaje >= 0 && puntaje <= 3) {
-            mensaje = "¡Bien hecho! \n\nTienes hábitos sostenibles que ayudan a reducir tu huella de carbono. Continúa practicando acciones responsables y considera pequeños ajustes para mejorar aún más, como optar por energías renovables o plantar árboles.\n  Generas aproximado de emisiones: 3 a 4 toneladas de CO₂ al año."
+            mensaje = "¡Bien hecho! \n\nTienes hábitos sostenibles que ayudan a reducir tu huella de carbono. Continúa practicando acciones responsables y considera pequeños ajustes para mejorar aún más, como optar por energías renovables o plantar árboles.\n  Generas aproximadamente 3.5 toneladas de CO₂/año."
+
+            toneladasCarbono = "3.5 toneladas de CO₂/año."
         } else if (puntaje >= 4 && puntaje <= 6) {
 
-            mensaje = "Buen esfuerzo, pero hay margen para mejorar. \n\nTus actividades generan una cantidad moderada de emisiones. Puedes reducirlas limitando el consumo de carne, disminuyendo el uso de transporte personal o adoptando hábitos de reciclaje y ahorro energético.\n Generas aproximado de emisiones: 5 a 7 toneladas de CO₂ al año."
+            mensaje = "Buen esfuerzo, pero hay margen para mejorar. \n\nTus actividades generan una cantidad moderada de emisiones. Puedes reducirlas limitando el consumo de carne, disminuyendo el uso de transporte personal o adoptando hábitos de reciclaje y ahorro energético.\n Generas aproximadadamente 6.6 toneladas de CO₂/año."
 
-        } else if (puntaje >= 7 && puntaje <= 9) {
+            toneladasCarbono = "6.6 toneladas de CO₂/año."
 
-            mensaje = "Es momento de actuar. \n\nTus actividades tienen un impacto significativo en el medio ambiente. Considera cambios importantes, como usar transporte público, consumir alimentos locales, reducir el desperdicio y ser más consciente del uso de energía. ¡Cada acción cuenta!"
+        } else if (puntaje >= 7 && puntaje < 9) {
 
+            mensaje = "Es momento de actuar. \n\nTus actividades tienen un impacto significativo en el medio ambiente. Considera cambios importantes, como usar transporte público, consumir alimentos locales, reducir el desperdicio y ser más consciente del uso de energía. ¡Cada acción cuenta! \n Generas aproximadamente 10.7 toneladas de CO₂/año."
+
+            toneladasCarbono = "10.7 toneladas de CO₂/año."
         }
 
         alert("su puntaje es de: " + puntaje + "\n " + mensaje)
@@ -116,5 +144,95 @@ function CalcularHuella() {
     } else {
         Menu()
     }
+
+}
+
+function VerConcejos(listaRespuestas) {
+    let lista = Concejos (listaRespuestas)
+    let mensajeConcejos = ""
+
+    alert("Estos son los mejores concejos que tenemos para ti:")
+
+    for (let index = 0; index < lista.length; index++) {
+        
+         alert(lista[index])
+        
+    }
+
+    alert(mensajeConcejos)
+}
+
+function Concejos(listaRespuestas) {
+
+    let listaConcejos = []
+
+    if (listaRespuestas[0]) {
+        let opcion = "Opta por el transporte público, bicicleta o caminar cuando sea posible. También considera compartir el coche con otras personas (carpooling) para reducir emisiones."
+
+      listaConcejos.push(opcion)
+    }
+
+    if (listaRespuestas[1]) {
+        let opcion = "Intenta reducir la frecuencia de tus viajes en avión, especialmente en trayectos cortos, y considera opciones como el tren o reuniones virtuales."
+
+      listaConcejos.push(opcion)
+    }
+
+    
+
+    if (listaRespuestas[2]) {
+        let opcion = "Procura comer menos carne roja y opta por alimentos más sostenibles y saludables, como legumbres, tofu, quinoa o frutos secos. Incorporar días sin carne en tu semana puede marcar una gran diferencia."
+
+      listaConcejos.push(opcion)
+    }
+
+    if (listaRespuestas[3]) {
+        let opcion = "Planifica tus comidas, almacena los alimentos adecuadamente y utiliza las sobras en nuevas recetas. Así evitarás el desperdicio y reducirás tu impacto ambiental."
+
+      listaConcejos.push(opcion)
+    }
+
+    if (listaRespuestas[4]) {
+        let opcion = "Considera instalar paneles solares si es viable en tu área o contrata proveedores de energía que utilicen fuentes renovables. Reducirás tu dependencia de combustibles fósiles."
+
+      listaConcejos.push(opcion)
+    }
+
+    if (listaRespuestas[5]) {
+        let opcion = "Apaga los aparatos electrónicos y luces cuando no los necesites. Considera usar regletas con interruptores y bombillas LED para ahorrar energía."
+
+      listaConcejos.push(opcion)
+    }
+
+    if (listaRespuestas[6]) {
+        let opcion = "Sé más consciente al separar residuos. Reutiliza, recicla y compostea siempre que sea posible para reducir la cantidad de basura que llega a los vertederos."
+
+      listaConcejos.push(opcion)
+    }
+
+    if (listaRespuestas[7]) {
+        let opcion = "Reduce el tiempo de las duchas y utiliza cabezales de ducha de bajo flujo. También puedes ajustar el calentador a una temperatura más baja para ahorrar energía."
+
+      listaConcejos.push(opcion)
+    }
+
+    concejosFinales= listaConcejos
+
+    return listaConcejos
+   
+    
+}
+
+function Salida() {
+
+    let mensajeSalida = ""
+
+    if (concejosFinales.length < 3) {
+        mensajeSalida = "¡Sigamos cuidando de nuestro planeta!"
+    }else{
+        mensajeSalida+= concejosFinales[0] + "\n\n" + concejosFinales[1]+ "\n\n" + concejosFinales[2]
+    }
+    alert(" Muchas Gracias Por Usar La aplicacion, Se informa que las toneladas de Carbono creadas al año : " + toneladasCarbono+ "\n Respuestas afirmativas en la encuesta: " + aciertos+"/8");
+    alert("Recomendaciones Particulares: \n" + mensajeSalida)
 
 }
