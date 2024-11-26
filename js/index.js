@@ -85,56 +85,87 @@ function Menu() {
 
 function CalcularHuella() {
 
+    
     let mensaje = " "
 
     if (confirm("A continuacion pasara a un cuestionario sobre algunas acciones que puede que pasen en tu vida con el fin de calcular si produces demasiada huella de carbono o no \nPresione confirmar para continuar y si no sera devuelto al menu anterior")) {
 
+        toneladasCarbono = 0
 
         let transporte = confirm("Utilizas transporte personal (como coche o motocicleta) más de 3 veces por semana?")
-
+        if (transporte) {
+            toneladasCarbono+= 0.87
+            puntaje += 1
+                aciertos+= 1 
+        }
+        
+        
         let avion = confirm("¿Sueles viajar en avión más de 2 veces al año?")
+        if (avion) {
+            toneladasCarbono+= 0.37
+            puntaje += 1
+                aciertos+= 1 
+        }
 
         let carneRoja = confirm("¿Consumes carne roja más de 3 veces a la semana?")
+        if (carneRoja) {
+            toneladasCarbono+= 2.46
+            puntaje += 1
+                aciertos+= 1 
+        }
 
         let comida = confirm("¿Desperdicias alimentos frecuentemente o tiras comida a la basura?")
+        if (comida) {
+            toneladasCarbono+= 0.96
+            puntaje += 1
+                aciertos+= 1 
+        }
 
         let energia = confirm("¿Tu hogar no utiliza fuentes de energía renovable (como paneles solares)?")
+        if (energia) {
+            toneladasCarbono+= 2.4
+            puntaje += 1
+                aciertos+= 1 
+        }
 
         let malgastoEnergia = confirm("¿Dejas aparatos electrónicos o luces encendidas cuando no los usas?")
+        if (malgastoEnergia) {
+            toneladasCarbono+= 0.14
+            puntaje += 1
+                aciertos+= 1 
+        }
 
         let basura = confirm("¿Generas más de 2 bolsas de basura por semana en tu hogar?")
+        if (basura) {
+            toneladasCarbono+= 0.54
+            puntaje += 1
+            aciertos+= 1 
+        }
 
         let agua = confirm("¿Tienes un uso elevado de agua caliente sin control (duchas largas, etc)")
+        if (agua) {
+            toneladasCarbono+= 1.46
+            puntaje += 1
+            aciertos+= 1 
+        }
 
         let respuestas = [transporte, avion, carneRoja, comida, energia, malgastoEnergia, basura, agua]
 
 
 
-        for (let index = 0; index < respuestas.length; index++) {
+        if (puntaje >= 0 && puntaje <= 3) {
+            mensaje = "¡Bien hecho! \n\nTienes hábitos sostenibles que ayudan a reducir tu huella de carbono. Continúa practicando acciones responsables y considera pequeños ajustes para mejorar aún más, como optar por energías renovables o plantar árboles.\n  Generas aproximadamente de: "+ toneladasCarbono +" toneladas de CO₂/año."
 
             
-
-            if (respuestas[index]) {
-                puntaje += 1
-                aciertos+= 1 
-            }
-        }
-
-        if (puntaje >= 0 && puntaje <= 3) {
-            mensaje = "¡Bien hecho! \n\nTienes hábitos sostenibles que ayudan a reducir tu huella de carbono. Continúa practicando acciones responsables y considera pequeños ajustes para mejorar aún más, como optar por energías renovables o plantar árboles.\n  Generas aproximadamente 3.5 toneladas de CO₂/año."
-
-            toneladasCarbono = "3.5 toneladas de CO₂/año."
         } else if (puntaje >= 4 && puntaje <= 6) {
 
-            mensaje = "Buen esfuerzo, pero hay margen para mejorar. \n\nTus actividades generan una cantidad moderada de emisiones. Puedes reducirlas limitando el consumo de carne, disminuyendo el uso de transporte personal o adoptando hábitos de reciclaje y ahorro energético.\n Generas aproximadadamente 6.6 toneladas de CO₂/año."
+            mensaje = "Buen esfuerzo, pero hay margen para mejorar. \n\nTus actividades generan una cantidad moderada de emisiones. Puedes reducirlas limitando el consumo de carne, disminuyendo el uso de transporte personal o adoptando hábitos de reciclaje y ahorro energético.\n Generas aproximadadamentede: "+ toneladasCarbono +" toneladas de CO₂/año."
 
-            toneladasCarbono = "6.6 toneladas de CO₂/año."
 
         } else if (puntaje >= 7 && puntaje < 9) {
 
-            mensaje = "Es momento de actuar. \n\nTus actividades tienen un impacto significativo en el medio ambiente. Considera cambios importantes, como usar transporte público, consumir alimentos locales, reducir el desperdicio y ser más consciente del uso de energía. ¡Cada acción cuenta! \n Generas aproximadamente 10.7 toneladas de CO₂/año."
+            mensaje = "Es momento de actuar. \n\nTus actividades tienen un impacto significativo en el medio ambiente. Considera cambios importantes, como usar transporte público, consumir alimentos locales, reducir el desperdicio y ser más consciente del uso de energía. ¡Cada acción cuenta! \n Generas aproximadamente de: "+ toneladasCarbono +" toneladas de CO₂/año."
 
-            toneladasCarbono = "10.7 toneladas de CO₂/año."
         }
 
         alert("su puntaje es de: " + puntaje + "\n " + mensaje)
@@ -232,7 +263,7 @@ function Salida() {
     }else{
         mensajeSalida+= concejosFinales[0] + "\n\n" + concejosFinales[1]+ "\n\n" + concejosFinales[2]
     }
-    alert(" Muchas Gracias Por Usar La aplicacion, Se informa que las toneladas de Carbono creadas al año : " + toneladasCarbono+ "\n Respuestas afirmativas en la encuesta: " + aciertos+"/8");
+    alert(" Muchas Gracias Por Usar La aplicacion, Se informa que las toneladas de Carbono creadas al Año son: " + toneladasCarbono+ " toneladas de CO₂/año\n Respuestas afirmativas en la encuesta: " + aciertos+"/8");
     alert("Recomendaciones Particulares: \n" + mensajeSalida)
 
 }
